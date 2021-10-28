@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="220dp"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/pin_background"
+    android:layout_gravity="center"
+
+    >
+
+    <TextView
+        android:id="@+id/pin_popup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Enter Pin "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        />
+
+    <EditText
+        android:id="@+id/pin_popup_input"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pin_popup_title"
+        android:layout_centerInParent="true"
+        android:hint="PIN"
+        android:inputType="number"
+        android:maxLength="4"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25dp"></EditText>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/pop_up_gif"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/success" />
+
+    <ImageView
+        android:id="@+id/pin_popup_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/pin_popup_title"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_baseline_arrow_forward_24">
+
+    </ImageView>
+
+
+</RelativeLayout>

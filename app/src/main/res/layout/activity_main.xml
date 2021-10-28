@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".View.MainActivity">
+
+    <TextView
+        android:id="@+id/main_notes_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"
+        android:text="Notes"
+        android:textColor="#182883"
+        android:textSize="30dp"
+        android:textStyle="bold"></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/main_add_btn"
+        android:layout_below="@+id/main_notes_title"
+        android:layout_marginBottom="1dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"></androidx.recyclerview.widget.RecyclerView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/main_navigation"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginRight="4dp"
+
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:padding="10dp"
+        android:tint="@color/black"
+        app:backgroundTint="#F9D360"
+        app:shapeAppearanceOverlay="@style/FabAddShape"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+    <LinearLayout
+        android:id="@+id/main_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/gradient_color_royal_no_corners">
+
+
+        <Button
+            android:id="@+id/main_location_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/transparent_button_nav_right_border"
+            android:drawableTop="@drawable/location_icon"
+            android:drawableTint="@color/white"
+            android:text="Map Mode"
+            app:backgroundTint="#5C5252"></Button>
+
+            <Button
+                android:id="@+id/main_log_out_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/logout"
+                android:background="@drawable/transparent_button_nav"
+                android:text="Log Out"
+                ></Button>
+
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/main_search_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/main_recycle_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:ems="10"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:hint="Search"
+        android:inputType="textPersonName"
+        android:padding="7dp" />
+
+</RelativeLayout>

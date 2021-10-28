@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "371342822345",
+    "project_id": "moveonotes-f9d4d",
+    "storage_bucket": "moveonotes-f9d4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371342822345:android:4c9af605d95c1a59bff618",
+        "android_client_info": {
+          "package_name": "com.example.moveonotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371342822345-h9srjhidureuneh5k0pkps8vev9tfij9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzw08eVgt8XO6G6w986fShg4BTVMDGgXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371342822345-h9srjhidureuneh5k0pkps8vev9tfij9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

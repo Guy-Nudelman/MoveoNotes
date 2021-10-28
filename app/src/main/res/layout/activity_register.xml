@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0C1750"
+    tools:context=".View.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/register_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/moveo_logo" />
+
+    <Button
+        android:id="@+id/register_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_input"
+        android:drawableLeft="?attr/homeAsUpIndicator"
+        android:text="Back"
+        app:backgroundTint="#F75656"
+        app:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ProgressBar
+        android:id="@+id/register_spinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/register_wave_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <RelativeLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/login_background_transparent"
+        android:orientation="vertical"
+        android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/register_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:padding="10dp"
+            android:text="Welcome"
+            android:textColor="#F7F7F7"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/register_general_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_register_btn"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Error"
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/register_email_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_below="@id/register_title"
+android:layout_centerHorizontal="true"
+            android:background="@drawable/custom_input_login"
+            android:drawableLeft="@drawable/ic_baseline_email_24"
+            android:drawablePadding="7dp"
+            android:drawableTint="@color/black"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/black" />
+
+        <TextView
+            android:id="@+id/register_email_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/register_email_editText"
+            android:text="Error"
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/register_firstName_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_email_error"
+            android:layout_centerHorizontal="false"
+            android:background="@drawable/custom_input_login"
+            android:layout_gravity="center"
+
+            android:drawableLeft="@drawable/person_icon"
+            android:drawablePadding="7dp"
+            android:drawableTint="@color/black"
+            android:ems="7"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/black" />
+
+        <TextView
+            android:id="@+id/register_firstName_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@id/register_firstName_editText"
+            android:text="Error"
+            android:layout_margin="5dp"
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/register_lastName_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_email_error"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="false"
+
+
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/custom_input_login"
+            android:drawableLeft="@drawable/person_icon"
+            android:drawablePadding="7dp"
+            android:drawableTint="@color/black"
+            android:ems="7"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/black" />
+
+        <TextView
+            android:id="@+id/register_lastName_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Error"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/register_lastName_editText"
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/register_password_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+        android:layout_below="@id/register_lastName_error"
+            android:background="@drawable/custom_input_login"
+            android:drawableLeft="@drawable/password_icon"
+            android:drawablePadding="7dp"
+            android:drawableTint="@color/black"
+            android:ems="7"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/black" />
+
+        <TextView
+            android:id="@+id/register_password_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Error"
+            android:layout_below="@id/register_password_editText"
+
+            android:layout_margin="5dp"
+
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/register_pin_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_lastName_error"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_input_login"
+            android:drawableTint="@color/black"
+            android:ems="7"
+            android:gravity="center"
+            android:hint="PIN -1111"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/black"></EditText>
+
+        <Button
+            android:id="@+id/register_register_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_input"
+            android:fontFamily="sans-serif-black"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Register"
+            android:layout_below="@id/register_password_error"
+            android:textAllCaps="false"
+            android:textSize="24sp"
+            app:backgroundTint="#FBAA32" />
+    </RelativeLayout>
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/register_wave_footer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleY="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.scwang.wave.MultiWaveHeader>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/register_email_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        app:backgroundTint="#F0E1E1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/register_wave_footer"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
