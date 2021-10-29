@@ -96,4 +96,18 @@
         android:inputType="textPersonName"
         android:padding="7dp" />
 
+    <TextView
+        android:id="@+id/main_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_recycle_view"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="monospace"
+        android:text="No Notes Yet"
+        android:textSize="22sp"
+        android:visibility="gone" />
+
 </RelativeLayout>

@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
     private NoteAdapter noteAdapter;
     private EditText searchEditText;
     private MainViewModel mViewModel;
+    private TextView emptyText;
 
 
     //LifeCycle Methods
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
                 showLogoutDialog();
             }
         });
+        emptyText.setVisibility(View.GONE);
         initRecyclerView();
         getLocalData();
         searchEditText.addTextChangedListener(new TextWatcher() {
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
         logOutBtn = findViewById(R.id.main_log_out_btn);
         recyclerView = findViewById(R.id.main_recycle_view);
         searchEditText = findViewById(R.id.main_search_text);
+        emptyText = findViewById(R.id.main_empty_text);
         notes = new ArrayList<>();
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
@@ -166,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
         mViewModel.getLocalData().observe(this, new Observer<List<Note>>() {
             @Override
             public void onChanged(List<Note> notes) {
+                if (notes.size() == 0) emptyText.setVisibility(View.VISIBLE);
+                else emptyText.setVisibility(View.INVISIBLE);
                 setNotes(notes);
             }
         });
