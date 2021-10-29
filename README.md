@@ -108,4 +108,4 @@ What i've Used :
 
 
 ## Disclamir
-This is not an officail Moveo Product.
+This is not an official Moveo Product.
