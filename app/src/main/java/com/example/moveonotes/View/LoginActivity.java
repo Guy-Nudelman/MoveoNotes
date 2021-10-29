@@ -161,6 +161,7 @@ public class LoginActivity extends AppCompatActivity implements CallBackFragment
         String password = passwordEditText.getText().toString();
         switch (mViewModel.isValid(email, password)) {
             case VALID:
+                loginBtn.setEnabled(false);
                 loginSpinner.setVisibility(View.VISIBLE);
                 mViewModel.loginUser(email, password, this);
                 break;
@@ -220,6 +221,7 @@ public class LoginActivity extends AppCompatActivity implements CallBackFragment
     }
 
     private void restartErrorText() {
+        loginBtn.setEnabled(true);
         passwordError.setText("");
         emailError.setText("");
         generalError.setText("");

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -32,6 +34,7 @@ import com.example.moveonotes.R;
 import com.example.moveonotes.Repo.Repository;
 import com.example.moveonotes.Utils.GlobalApplicationContext;
 import com.example.moveonotes.Utils.InputValidation;
+import com.example.moveonotes.ViewModel.AddEditNoteViewModel;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -56,8 +59,10 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
     private Note note;
     private TextView errorText;
     private CheckBox importantNoteCheck;
-    private String imagePostUri="";
+    private String imagePostUri = "";
     private ImageView imageView;
+    private AddEditNoteViewModel mViewModel;
+
     public static final String EXTRA_TITLE = "com.example.moveonotes.View.EXTRA_TITLE";
     public static final String EXTRA_BODY = "com.example.moveonotes.View.EXTRA_BODY";
     public static final String EXTRA_ID = "com.example.moveonotes.View.EXTRA_ID";
@@ -139,7 +144,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(note!=null){
+                if (note != null) {
                     int id = getIntent().getIntExtra(EXTRA_ID, -1);
                     if (id != -1) {
                         note.setKey(id);
@@ -147,7 +152,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
                         if (imagePostUri == "")
                             note.setImage(imageUrlCheck);
                     }
-                    repository.delete(note);
+                    mViewModel.delete(note);
                     finish();
                 }
 
@@ -165,12 +170,10 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
         importantNoteCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     PINDialogAdapter pinDialogAdapter = new PINDialogAdapter(AddEditNoteActivity.this);
                     pinDialogAdapter.PIN_enter(AddEditNoteActivity.this);
                     boolean pinCheck = pinDialogAdapter.getPinChecked();
-
-
                 }
             }
         });
@@ -191,7 +194,7 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
         deleteBtn.setVisibility(View.INVISIBLE);
         note = new Note();
         repository = Repository.getInstance(GlobalApplicationContext.getContext());
-
+        mViewModel = new ViewModelProvider(this).get(AddEditNoteViewModel.class);
         //Initialize fusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -205,11 +208,10 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
     }
 
 
-
     private void getLocationAndSaveNote() {
         //Check Permissions
         if (ActivityCompat.checkSelfPermission(AddEditNoteActivity.this
-        , Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                , Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //When Permission Granted
             //getLocation()
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -217,34 +219,49 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
                 public void onComplete(@NonNull Task<Location> task) {
                     //Initilize Location
                     Location location = task.getResult();
-                    if(location!=null){
+                    if (location != null) {
                         note.setNoteLat(location.getLatitude());
                         note.setNoteLong(location.getLongitude());
                     }
                     saveActualNote();
                 }
             });
-        }else{
+        } else {
             //When Permission denied
             ActivityCompat.requestPermissions(AddEditNoteActivity.this
-            ,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+                    , new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
 
         }
     }
 
     private void saveActualNote() {
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
-        if(importantNoteCheck.isChecked()) note.setSecure(true);
+        if (importantNoteCheck.isChecked()) note.setSecure(true);
         else note.setSecure(false);
         if (id != -1) {
             note.setKey(id);
             String imageUrlCheck = getIntent().getStringExtra(EXTRA_IMAGE_URL);
-            if(imagePostUri=="")
+            if (imagePostUri == "")
                 note.setImage(imageUrlCheck);
-            repository.updateNote(note, this);
+            mViewModel.get_noteResult().observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean noteUpdateResult) {
+                    if (noteUpdateResult) showActivity(MainActivity.class);
+                    else showError("FAILED TO UPDATE NOTE");
+                }
+            });
+            mViewModel.updateNote(note);
+
         } else {
-            Log.d(" note laong",Double.toString(note.getNoteLat()));
-            repository.saveNote(note, this);
+            Log.d(" note laong", Double.toString(note.getNoteLat()));
+            mViewModel.get_noteResult().observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean noteUpdateResult) {
+                    if (noteUpdateResult) showActivity(MainActivity.class);
+                    else showError("FAILED TO SAVE NOTE");
+                }
+            });
+            mViewModel.saveNote(note);
 
         }
     }
@@ -260,9 +277,9 @@ public class AddEditNoteActivity extends AppCompatActivity implements CallBackFr
             deleteBtn.setVisibility(View.VISIBLE);
             titleInput.setText(intent.getStringExtra(EXTRA_TITLE));
             bodyInput.setText(intent.getStringExtra(EXTRA_BODY));
-            importantNoteCheck.setChecked(intent.getBooleanExtra(EXTRA_SECURED,false));
+            importantNoteCheck.setChecked(intent.getBooleanExtra(EXTRA_SECURED, false));
             String imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
-            if(imageUrl.length()>2){
+            if (imageUrl.length() > 2) {
                 Glide.with(getApplicationContext())
                         .load(new File(intent.getStringExtra(EXTRA_IMAGE_URL)).getPath()) // Uri of the picture
                         .into(imageView);

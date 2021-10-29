@@ -160,10 +160,11 @@ public class RegisterActivity extends AppCompatActivity implements CallBackFragm
         String pinInput = pinEditText.getText().toString();
         if (!pinInput.equals(""))  pin = Integer.parseInt(pinInput);
         else pin = 1111;
-        Validation.ERROR_INPUT input = mViewModel.isValid(email, firstName, lastName, password);
+        Validation.ERROR_INPUT input = mViewModel.isValid(email, firstName, lastName, password,pin);
         switch (input) {
             case VALID:
                 registerSpinner.setVisibility(View.VISIBLE);
+                registerBtn.setEnabled(false);
                 restartErrorText();
                 mViewModel.createUser(email, firstName, lastName, password,pin ,this);
                 break;
@@ -188,13 +189,17 @@ public class RegisterActivity extends AppCompatActivity implements CallBackFragm
             case NAME_SHORT:
                 registerSpinner.setVisibility(View.GONE);
                 restartErrorText();
-                firstNameErrorText.setText("Name Is Too Short");
-
+                firstNameErrorText.setText("Both Names Should Be At least 2 Characters Long");
+            case PIN_SHORT:
+                registerSpinner.setVisibility(View.GONE);
+                restartErrorText();
+                generalErrorText.setText("PIN Is Too Short");
 
         }
     }
 
     public void restartErrorText() {
+        registerBtn.setEnabled(true);
         passwordErrorText.setText("");
         emailErrorText.setText("");
         firstNameErrorText.setText("");

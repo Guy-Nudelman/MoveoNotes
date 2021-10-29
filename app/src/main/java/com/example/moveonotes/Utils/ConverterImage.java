@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 
 public class ConverterImage {
 
+    //Class Implemented For Future Development (FireBase Storage and local caching)
+
     public static byte[] getBytsFromFile(File file) {
         try {
             byte bytes[] = new byte[(int) file.length()];

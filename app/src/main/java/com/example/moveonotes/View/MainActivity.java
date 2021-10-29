@@ -3,6 +3,7 @@ package com.example.moveonotes.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,8 @@ import com.example.moveonotes.Interface.CallBackFragment;
 import com.example.moveonotes.Model.Note;
 import com.example.moveonotes.R;
 import com.example.moveonotes.Repo.Repository;
+import com.example.moveonotes.ViewModel.LoginViewModel;
+import com.example.moveonotes.ViewModel.MainViewModel;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
@@ -53,10 +56,8 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
     private Repository repository;
     private List<Note> notes;
     private NoteAdapter noteAdapter;
-    private Dialog imageDialog;
-    private Dialog logoutDialog;
     private EditText searchEditText;
-
+    private MainViewModel mViewModel;
 
 
     //LifeCycle Methods
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
     }
 
 
-
     private void InitializeVariables() {
         addBtn = findViewById(R.id.main_add_btn);
         mapBtn = findViewById(R.id.main_location_btn);
@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
         recyclerView = findViewById(R.id.main_recycle_view);
         searchEditText = findViewById(R.id.main_search_text);
         notes = new ArrayList<>();
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
     }
 
 
@@ -161,29 +163,19 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
 
     //Activity Methods
     private void getLocalData() {
-        repository.getAllNotes().observe(this, new Observer<List<Note>>() {
+        mViewModel.getLocalData().observe(this, new Observer<List<Note>>() {
             @Override
-            public void onChanged(List<Note> _notes) {
-                if (_notes == null) return;
-                notes=_notes;
-                noteAdapter.submitList(_notes);
+            public void onChanged(List<Note> notes) {
+                setNotes(notes);
             }
         });
 
     }
 
 
-
     private void search(String text) {
-        noteAdapter.setSearchText(text);
-        ArrayList<Note> filteredList = new ArrayList<>();
-        for (Note note : notes) {
-            if (note.getNoteTitle().toLowerCase().contains(text.toLowerCase()) || note.getNoteBody().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(note);
-            }
-        }
-        noteAdapter.submitList(filteredList);
-        noteAdapter.notifyDataSetChanged();
+        mViewModel.search(text, noteAdapter, notes);
+
     }
 
     private void showLogoutDialog() {
@@ -211,38 +203,32 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
 
     private void showEditNoteActivity(Note note) {
         Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
-        intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getKey());
-        intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getNoteTitle());
-        intent.putExtra(AddEditNoteActivity.EXTRA_BODY, note.getNoteBody());
-        intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getKey());
-        intent.putExtra(AddEditNoteActivity.EXTRA_IMAGE_URL, note.getImage());
-        intent.putExtra(AddEditNoteActivity.EXTRA_SECURED,note.isSecure());
+        mViewModel.fillEditNoteExtras(intent, note);
         startActivityForResult(intent, 2);
 
     }
 
     private void defineSwipeToDelete() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(2,ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(2, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                Log.d("Image",noteAdapter.getNoteAt(viewHolder.getAdapterPosition()).toString());
                 return false;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Note note = noteAdapter.getNoteAt(viewHolder.getAdapterPosition());
-                if(note.getImage().length()>2){
+                if (note.getImage().length() > 2) {
                     showImagePopup(noteAdapter.getNoteAt(viewHolder.getAdapterPosition()));
                     noteAdapter.notifyDataSetChanged();
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "No Image!", Toast.LENGTH_SHORT).show();
                     noteAdapter.notifyDataSetChanged();
                 }
 
             }
         }).attachToRecyclerView(recyclerView);
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -251,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Note note = noteAdapter.getNoteAt(viewHolder.getAdapterPosition());
-                if(!note.isSecure())repository.delete(note);
+                if (!note.isSecure()) mViewModel.delete(note);
                 else pinBeforeDelete(note);
                 Toast.makeText(MainActivity.this, "Deleting Note", Toast.LENGTH_SHORT).show();
             }
@@ -261,33 +247,22 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
 
     private void pinBeforeDelete(Note note) {
         PINDialogAdapter pinDialogAdapter = new PINDialogAdapter(this);
-        pinDialogAdapter.PIN_enter(this ,note);
+        pinDialogAdapter.PIN_enter(this, note);
     }
 
 
     private void showMapPopUp() {
         getLocalData();
         MapFragment mapFragment = MapFragment.newInstance(notes);
-        mapFragment.show(getSupportFragmentManager(),"MapFragment");
-
+        mapFragment.show(getSupportFragmentManager(), "MapFragment");
 
 
     }
 
 
     private void showImagePopup(Note noteAt) {
-        imageDialog = new Dialog(MainActivity.this);
-        imageDialog.setContentView(R.layout.image_pop_up);
-        TextView dialogTitle;
-        ImageView noteImage;
-        dialogTitle = imageDialog.findViewById(R.id.pop_up_title);
-        noteImage = imageDialog.findViewById(R.id.pop_up_image);
-        Log.d("image",noteAt.getImage());
-        Glide.with(getApplicationContext())
-                .load(new File(noteAt.getImage()).getPath()) // Uri of the picture
-            .into(noteImage);
-        imageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        imageDialog.show();
+        mViewModel.showImagePopup(this, noteAt);
+
 
     }
 
@@ -301,10 +276,15 @@ public class MainActivity extends AppCompatActivity implements CallBackFragment 
 
 
     public void deletNote(Note note, boolean b) {
-        if (b)repository.delete(note);
-        else{
+        if (b) repository.delete(note);
+        else {
             Toast.makeText(this, "Wrong PIN!", Toast.LENGTH_SHORT).show();
         }
         noteAdapter.notifyDataSetChanged();
+    }
+
+    public void setNotes(List<Note> _notes) {
+        notes = _notes;
+        noteAdapter.submitList(notes);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.moveonotes.Data.Database;
 import com.example.moveonotes.Data.DbInterface;
@@ -15,7 +16,6 @@ import com.example.moveonotes.View.LoginActivity;
 import com.example.moveonotes.View.MainActivity;
 import com.example.moveonotes.View.RegisterActivity;
 
-import java.io.File;
 import java.util.List;
 
 public class Repository {
@@ -28,6 +28,7 @@ public class Repository {
     private DbInterface dbInterface;
     private Context context;
     private static final String TAG = "Repository";
+    private boolean noteResult;
 
 
     //Singleton
@@ -49,29 +50,29 @@ public class Repository {
 
     //Repo Methods
 
-    public void createUser(String email, String firstName, String lastName, String password,int pin, RegisterActivity registerActivity) {
-        networkCore.createUser(email, firstName, lastName, password,pin, registerActivity);
+    public void createUser(String email, String firstName, String lastName, String password, int pin, RegisterActivity registerActivity) {
+        networkCore.createUser(email, firstName, lastName, password, pin, registerActivity);
     }
 
     public void signIn(String email, String password, LoginActivity loginActivity) {
         networkCore.signIn(email, password, loginActivity);
     }
 
-    public void saveNote(Note note, AddEditNoteActivity addNoteActivity) {
+    public void saveNote(Note note, MutableLiveData<Boolean> _noteResult) {
         database.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.d("lat!!@#@!#@!#",Double.toString(note.getNoteLat()));
+                    Log.d("lat!!@#@!#@!#", Double.toString(note.getNoteLat()));
                     note.setUserEmail(SharedPrefHelper.getInstance(GlobalApplicationContext.getContext()).getUser().getEmail());
                     dbInterface.save_note(note);
-                    if(note.getImage()!="")
-                        Log.d("img",note.getImage());
+                    if (note.getImage() != "")
+                        Log.d("img", note.getImage());
                     Log.d(TAG, "run:SAVED NOTE :=>" + note.getNoteTitle());
-                    addNoteActivity.showActivity(MainActivity.class);
+                    _noteResult.postValue(true);
                 } catch (Exception e) {
                     Log.d(TAG, "run:FAILED TO SAVE NOTE :=>" + note.getNoteTitle() + " " + "because : " + e.getMessage());
-                    addNoteActivity.showError(e.getMessage());
+                    _noteResult.postValue(false);
                 }
             }
         });
@@ -87,7 +88,7 @@ public class Repository {
             public void run() {
                 try {
                     dbInterface.delete(noteAt);
-                    //TODO:TO FILE HANDLER
+                    //TODO:TO FILE HANDLER - Delete Image file
                     //context.getFileStreamPath(noteAt.getImage()).delete();
                     Log.d(TAG, "run:Deleted NOTE : =>" + noteAt.getNoteTitle());
                 } catch (Exception e) {
@@ -97,18 +98,18 @@ public class Repository {
         });
     }
 
-    public void updateNote(Note note, AddEditNoteActivity addEditNoteActivity) {
+
+    public void updateNote(Note note, MutableLiveData<Boolean> _noteResult) {
         database.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    dbInterface.update_note(note.getKey(),note.getTimeStampCreated(),note.getNoteBody(),note.getNoteTitle(),note.getImage(),note.getNoteLat(),note.getNoteLong(),note.isSecure());
-
+                    dbInterface.update_note(note.getKey(), note.getTimeStampCreated(), note.getNoteBody(), note.getNoteTitle(), note.getImage(), note.getNoteLat(), note.getNoteLong(), note.isSecure());
                     Log.d(TAG, "run:UPDATE NOTE : =>" + note.getNoteTitle());
-                    addEditNoteActivity.showActivity(MainActivity.class);
+                    _noteResult.postValue(true);
                 } catch (Exception e) {
                     Log.d(TAG, "run:FAILED TO UPDATE NOTE : =>" + note.getNoteTitle() + " " + "because : " + e.getMessage());
-                    addEditNoteActivity.showError(e.getMessage());
+                    _noteResult.postValue(false);
                 }
             }
         });

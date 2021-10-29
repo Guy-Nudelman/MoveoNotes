@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.Context;
 
 public class GlobalApplicationContext extends Application {
+
     //Variables
     public static GlobalApplicationContext instance;
 
+    //Global Context Methods
     public static GlobalApplicationContext getInstance() {
         return instance;
     }

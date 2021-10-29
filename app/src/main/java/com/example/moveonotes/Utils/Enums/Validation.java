@@ -9,6 +9,7 @@ public class Validation {
         NAME_SHORT,
         VALID,
         TITLE_SHORT,
-        BODY_SHORT
+        BODY_SHORT,
+        PIN_SHORT
     }
 }

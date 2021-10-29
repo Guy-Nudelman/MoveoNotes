@@ -18,12 +18,13 @@ public class InputValidation {
         return Validation.ERROR_INPUT.VALID;
     }
 
-    public static Validation.ERROR_INPUT isRegisterValid(String email, String firstName, String lastName, String password) {
+    public static Validation.ERROR_INPUT isRegisterValid(String email, String firstName, String lastName, String password, int pin) {
         if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty())
             return Validation.ERROR_INPUT.MISS_FIELDS;
         else if (password.length() < 6) return Validation.ERROR_INPUT.PASS_SHORT;
         else if (email.length() < 2) return Validation.ERROR_INPUT.EMAIL_SHORT;
         else if (firstName.length() < 2 || lastName.length()<2) return Validation.ERROR_INPUT.NAME_SHORT;
+        else if(pin<1000) return  Validation.ERROR_INPUT.PIN_SHORT;
         return Validation.ERROR_INPUT.VALID;
     }
 

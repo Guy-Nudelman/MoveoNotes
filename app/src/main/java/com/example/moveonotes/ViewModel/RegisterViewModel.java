@@ -29,8 +29,8 @@ public class RegisterViewModel extends AndroidViewModel {
     }
 
     //ViewModel Methods
-    public Validation.ERROR_INPUT isValid(String email, String firstName, String lastName, String password) {
-        return InputValidation.isRegisterValid(email,firstName,lastName,password);
+    public Validation.ERROR_INPUT isValid(String email, String firstName, String lastName, String password, int pin) {
+        return InputValidation.isRegisterValid(email,firstName,lastName,password,pin);
     }
 
 
