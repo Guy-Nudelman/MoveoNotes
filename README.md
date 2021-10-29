@@ -1,4 +1,4 @@
-# Moveo Notes - Android Application
+# Moveo Notes 1.0 - Android Application
 
 <br />
 <p align="center">
@@ -20,17 +20,28 @@ Thanks ❤</br></br>
 ## App Functionality
 
 1. Implementation of Users Identification and Users Registeration 
+	#### Be Remembered.
 	- Authentication and validation inputs of the users when entering the app.
 	- Future logins to the app after registeration to the app will auto log in the user.
+		</br>
 2. Implementation of Firebase Database Architecture
 	- Data served by the app is handled by a RepositoryDataBase that implements Firebase.
-	- Local data is saved in a singleton.
+	- Local data is saved in a singleton and DB.
+		</br>
+
 3. Implementation of Notes 
+	#### Now, Notes Are More Than Just A Text.
 	- Each Note can have a title, body, location (Assigned by translating Latitude and Longitutde into an address using a Geocoder) and an image.
-	- Notes can be marked as "important notes", so they can not be instantly deleted and must be verified with a pre - assinged PIN code.
+	- Notes can be marked as "important notes", so they can not be instantly deleted and must be verified with a pre-assinged PIN code.
+	#### Privacy. Because The Notes Are Yours.
   	- Notes are private and uniuqe for each user, and can not be shared between users or devices.
-	- Notes can be filtered by any text using a search bar.
-4. Implamantation of GoogleMaps that allows users to track Notes by location (Assigned by translating Latitude and Longitutde into an address using a Geocoder).
+  	#### Experience Is Key.
+	- Notes can be easliy filtered by any text using a search bar.
+	- Deleting a Note , or peeking it's image , can be done simply with a swipe (With in-app instructions).
+	- Inturducing a "young", colorful and dynamic UI for better experience.
+	</br>
+4. Implamantation of GoogleMaps - allows users to track Notes by location (Assigned by translating Latitude and Longitutde into an address using a Geocoder).
+	#### Remember Where You Have Been.
 	- Map Mode shows current user location.
   	- For each Note, Map shows a marker at the note location , with an attached details of the relavent Note (Title and address)
 	-  Clicking on a Marker will transfer the user into the Note screen , with the option to view and edit the Note.
@@ -77,6 +88,10 @@ What i've Used :
   
 ## Developed by:
 * [**Guy Nudelman**](https://www.linkedin.com/in/guynudelman/)
+
+## Credits:
+* [**Guy Nudelman**](https://www.linkedin.com/in/guynudelman/)
+
 
 ## Disclamir
 This is not an officail Moveo Product.
