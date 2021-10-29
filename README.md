@@ -3,7 +3,7 @@
 <br />
 <p align="center">
     <a href="https://github.com/Guy-Nudelman/Noalek-Patisserie-iOS">
-      <img src="images/logo.svg" alt="Logo" width="400" heigt="400">
+      <img src="images/logo.png" alt="Logo" width="400" heigt="400">
   </a>
  </p> 
  <p align="center">
@@ -72,24 +72,38 @@ Run apk and install application (Contact for access OR build apk through Android
 
 Loading Page            | Login Page            |  Sign-Up Page
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="images/splash.png" alt="register" width="305">  | <img src="images/login.png" alt="register" width="285">  |  <img src="images/register.png" alt="register" width="300">
+<img src="images/splash.jpeg" alt="splash" width="305">  | <img src="images/login.jpeg" alt="login" width="285">  |  <img src="images/register.jpeg" alt="register" width="300">
 
 Main Feed            |  Map Mode |  New/Edit Note
 :-------------------------:|:-------------------------: |:-------------------------:
-<img src="images/home.png" alt="register" width="300">  |  <img src="images/info.png" alt="register" width="300"> |  <img src="images/add.png" alt="register" width="310">
+<img src="images/home.jpeg" alt="home" width="300">  |  <img src="images/map.jpeg" alt="map" width="300"> |  <img src="images/add.jpeg" alt="add" width="310">
 
 	
 ## Technologies
 
 What i've Used : 
 
+#### SERVER SIDE
+
+* Firsebase SDK
+
+#### CLIENT SIDE
+
 * Java
+  * Data Structures 
+  	* Hash Map
+  	* Array List
+  	* etc
+  * Adapters
+  * Collections
 * MVVM
+* RoomDB
+* Live data
+* Google services
+* Glide Library
+
   
 ## Developed by:
-* [**Guy Nudelman**](https://www.linkedin.com/in/guynudelman/)
-
-## Credits:
 * [**Guy Nudelman**](https://www.linkedin.com/in/guynudelman/)
 
 
